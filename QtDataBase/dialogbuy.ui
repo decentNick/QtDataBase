@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>DialogBuy</class>
+ <widget class="QDialog" name="DialogBuy">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>599</width>
+    <height>576</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>599</width>
+    <height>485</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>1000</width>
+    <height>1000</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>DialogBuy</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout_2">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <spacer name="horizontalSpacer">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_3">
+       <property name="font">
+        <font>
+         <family>Segoe UI Black</family>
+         <pointsize>12</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>ПОКУПКА</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QFormLayout" name="formLayout">
+     <item row="0" column="0">
+      <widget class="QLabel" name="theaterLabel">
+       <property name="text">
+        <string>ТЕАТР</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QComboBox" name="theaterBox"/>
+     </item>
+     <item row="1" column="0">
+      <widget class="QLabel" name="specLabel">
+       <property name="text">
+        <string>СПЕКТАКЛЬ</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QComboBox" name="spectacleBox"/>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="datetimeLabel">
+       <property name="text">
+        <string>ДАТА И ВРЕМЯ</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QComboBox" name="datetimeBox"/>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="priceLabel">
+       <property name="text">
+        <string>ЦЕНА</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QComboBox" name="priceBox"/>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="quantityLabel">
+       <property name="text">
+        <string>КОЛИЧЕСТВО</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <item>
+        <spacer name="horizontalSpacer_3">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="quantityBox"/>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <widget class="QTableWidget" name="tableWidget"/>
+   </item>
+   <item>
+    <layout class="QVBoxLayout" name="verticalLayout">
+     <item>
+      <widget class="QPushButton" name="BuyButton">
+       <property name="text">
+        <string>КУПИТЬ</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="GetBillButton">
+       <property name="text">
+        <string>ПОЛУЧИТЬ ЧЕК</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="CloseButton">
+       <property name="text">
+        <string>ЗАКРЫТЬ</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <tabstops>
+  <tabstop>theaterBox</tabstop>
+  <tabstop>spectacleBox</tabstop>
+  <tabstop>datetimeBox</tabstop>
+  <tabstop>priceBox</tabstop>
+  <tabstop>quantityBox</tabstop>
+  <tabstop>BuyButton</tabstop>
+  <tabstop>GetBillButton</tabstop>
+  <tabstop>CloseButton</tabstop>
+  <tabstop>tableWidget</tabstop>
+ </tabstops>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>CloseButton</sender>
+   <signal>clicked()</signal>
+   <receiver>DialogBuy</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>616</x>
+     <y>564</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>569</x>
+     <y>440</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>theaterBox</sender>
+   <signal>activated(QString)</signal>
+   <receiver>DialogBuy</receiver>
+   <slot>TheaterSelected(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>354</x>
+     <y>59</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>509</x>
+     <y>67</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>spectacleBox</sender>
+   <signal>activated(QString)</signal>
+   <receiver>DialogBuy</receiver>
+   <slot>SpectacleSelected(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>376</x>
+     <y>82</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>459</x>
+     <y>81</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>datetimeBox</sender>
+   <signal>activated(QString)</signal>
+   <receiver>DialogBuy</receiver>
+   <slot>DatetimeSelected(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>356</x>
+     <y>100</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>482</x>
+     <y>104</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>priceBox</sender>
+   <signal>activated(int)</signal>
+   <receiver>DialogBuy</receiver>
+   <slot>PriceSelected()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>375</x>
+     <y>135</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>479</x>
+     <y>131</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>BuyButton</sender>
+   <signal>clicked()</signal>
+   <receiver>DialogBuy</receiver>
+   <slot>BuyClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>564</x>
+     <y>186</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>564</x>
+     <y>167</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>GetBillButton</sender>
+   <signal>clicked()</signal>
+   <receiver>DialogBuy</receiver>
+   <slot>GetBillClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>591</x>
+     <y>225</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>591</x>
+     <y>259</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>TheaterSelected(QString)</slot>
+  <slot>SpectacleSelected(QString)</slot>
+  <slot>DatetimeSelected(QString)</slot>
+  <slot>PriceSelected()</slot>
+  <slot>BuyClicked()</slot>
+  <slot>GetBillClicked()</slot>
+ </slots>
+</ui>
