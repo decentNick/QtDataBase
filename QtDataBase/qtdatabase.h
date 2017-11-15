@@ -20,6 +20,9 @@ private slots:
 	void searchStages(void);
 	void BuyClicked(void);
 	void ReturnClicked(void);
+	void TicketsStateClicked(void);
+	void FinancialReport(void);
+	void EmptySalesClicked(void);
 
 private:
 	Ui::QtDataBaseClass *ui;

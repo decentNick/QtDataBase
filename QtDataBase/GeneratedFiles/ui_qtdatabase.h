@@ -38,6 +38,10 @@ public:
     QPushButton *pushButton_2;
     QPushButton *repertoire;
     QPushButton *pushButton_3;
+    QPushButton *pushButton_5;
+    QPushButton *pushButton_6;
+    QPushButton *pushButton_7;
+    QPushButton *pushButton_8;
     QSpacerItem *verticalSpacer;
     QPushButton *pushButton_4;
     QMenuBar *menuBar;
@@ -48,7 +52,7 @@ public:
     {
         if (QtDataBaseClass->objectName().isEmpty())
             QtDataBaseClass->setObjectName(QStringLiteral("QtDataBaseClass"));
-        QtDataBaseClass->resize(572, 496);
+        QtDataBaseClass->resize(484, 496);
         centralWidget = new QWidget(QtDataBaseClass);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         gridLayout = new QGridLayout(centralWidget);
@@ -83,6 +87,26 @@ public:
 
         verticalLayout->addWidget(pushButton_3);
 
+        pushButton_5 = new QPushButton(centralWidget);
+        pushButton_5->setObjectName(QStringLiteral("pushButton_5"));
+
+        verticalLayout->addWidget(pushButton_5);
+
+        pushButton_6 = new QPushButton(centralWidget);
+        pushButton_6->setObjectName(QStringLiteral("pushButton_6"));
+
+        verticalLayout->addWidget(pushButton_6);
+
+        pushButton_7 = new QPushButton(centralWidget);
+        pushButton_7->setObjectName(QStringLiteral("pushButton_7"));
+
+        verticalLayout->addWidget(pushButton_7);
+
+        pushButton_8 = new QPushButton(centralWidget);
+        pushButton_8->setObjectName(QStringLiteral("pushButton_8"));
+
+        verticalLayout->addWidget(pushButton_8);
+
         verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
         verticalLayout->addItem(verticalSpacer);
@@ -98,7 +122,7 @@ public:
         QtDataBaseClass->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(QtDataBaseClass);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 572, 21));
+        menuBar->setGeometry(QRect(0, 0, 484, 21));
         QtDataBaseClass->setMenuBar(menuBar);
         mainToolBar = new QToolBar(QtDataBaseClass);
         mainToolBar->setObjectName(QStringLiteral("mainToolBar"));
@@ -118,6 +142,9 @@ public:
         QObject::connect(pushButton_3, SIGNAL(clicked()), QtDataBaseClass, SLOT(searchStages()));
         QObject::connect(pushButton, SIGNAL(clicked()), QtDataBaseClass, SLOT(BuyClicked()));
         QObject::connect(pushButton_2, SIGNAL(clicked()), QtDataBaseClass, SLOT(ReturnClicked()));
+        QObject::connect(pushButton_5, SIGNAL(clicked()), QtDataBaseClass, SLOT(TicketsStateClicked()));
+        QObject::connect(pushButton_6, SIGNAL(clicked()), QtDataBaseClass, SLOT(FinancialReport()));
+        QObject::connect(pushButton_7, SIGNAL(clicked()), QtDataBaseClass, SLOT(EmptySalesClicked()));
 
         QMetaObject::connectSlotsByName(QtDataBaseClass);
     } // setupUi
@@ -129,6 +156,10 @@ public:
         pushButton_2->setText(QApplication::translate("QtDataBaseClass", "\320\222\320\225\320\240\320\235\320\243\320\242\320\254", Q_NULLPTR));
         repertoire->setText(QApplication::translate("QtDataBaseClass", "\320\240\320\225\320\237\320\225\320\240\320\242\320\243\320\220\320\240", Q_NULLPTR));
         pushButton_3->setText(QApplication::translate("QtDataBaseClass", "\320\235\320\220\320\231\320\242\320\230 \320\237\320\240\320\225\320\224\320\241\320\242\320\220\320\233\320\225\320\235\320\230\320\257", Q_NULLPTR));
+        pushButton_5->setText(QApplication::translate("QtDataBaseClass", "\320\241\320\236\320\241\320\242\320\236\320\257\320\235\320\230\320\225 \320\237\320\236 \320\221\320\230\320\233\320\225\320\242\320\220\320\234", Q_NULLPTR));
+        pushButton_6->setText(QApplication::translate("QtDataBaseClass", "\320\244\320\230\320\235\320\220\320\235\320\241\320\236\320\222\320\253\320\231 \320\236\320\242\320\247\320\225\320\242", Q_NULLPTR));
+        pushButton_7->setText(QApplication::translate("QtDataBaseClass", "\320\232. \320\237\320\243\320\241\320\242\320\253\320\245 \320\237\320\240\320\236\320\224\320\220\320\226", Q_NULLPTR));
+        pushButton_8->setText(QApplication::translate("QtDataBaseClass", "\320\232. \320\243\320\241\320\237\320\225\320\250\320\235\320\236\320\241\320\242\320\230", Q_NULLPTR));
         pushButton_4->setText(QApplication::translate("QtDataBaseClass", "\320\227\320\220\320\232\320\240\320\253\320\242\320\254", Q_NULLPTR));
     } // retranslateUi
 

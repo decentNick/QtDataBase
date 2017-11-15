@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>599</width>
-    <height>576</height>
+    <width>631</width>
+    <height>485</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -193,8 +193,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>616</x>
-     <y>564</y>
+     <x>620</x>
+     <y>474</y>
     </hint>
     <hint type="destinationlabel">
      <x>569</x>
@@ -209,8 +209,8 @@
    <slot>TheaterSelected(QString)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>354</x>
-     <y>59</y>
+     <x>444</x>
+     <y>58</y>
     </hint>
     <hint type="destinationlabel">
      <x>509</x>
@@ -251,30 +251,14 @@
    </hints>
   </connection>
   <connection>
-   <sender>priceBox</sender>
-   <signal>activated(int)</signal>
-   <receiver>DialogBuy</receiver>
-   <slot>PriceSelected()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>375</x>
-     <y>135</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>479</x>
-     <y>131</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
    <sender>BuyButton</sender>
    <signal>clicked()</signal>
    <receiver>DialogBuy</receiver>
    <slot>BuyClicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>564</x>
-     <y>186</y>
+     <x>574</x>
+     <y>416</y>
     </hint>
     <hint type="destinationlabel">
      <x>564</x>
@@ -289,12 +273,28 @@
    <slot>GetBillClicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>591</x>
-     <y>225</y>
+     <x>601</x>
+     <y>445</y>
     </hint>
     <hint type="destinationlabel">
      <x>591</x>
      <y>259</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>priceBox</sender>
+   <signal>activated(int)</signal>
+   <receiver>DialogBuy</receiver>
+   <slot>PriceSelected(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>570</x>
+     <y>128</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>625</x>
+     <y>129</y>
     </hint>
    </hints>
   </connection>
@@ -303,8 +303,8 @@
   <slot>TheaterSelected(QString)</slot>
   <slot>SpectacleSelected(QString)</slot>
   <slot>DatetimeSelected(QString)</slot>
-  <slot>PriceSelected()</slot>
   <slot>BuyClicked()</slot>
   <slot>GetBillClicked()</slot>
+  <slot>PriceSelected(int)</slot>
  </slots>
 </ui>

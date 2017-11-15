@@ -55,6 +55,7 @@ void DialogBuy::TheaterSelected(QString th)
 void DialogBuy::SpectacleSelected(QString spec)
 {
 	QSqlQuery query(*database);
+	QDateTime dt = QDateTime::currentDateTime();
 
 	ui->BuyButton->setEnabled(false);
 	ui->datetimeBox->setEnabled(true);
@@ -63,9 +64,10 @@ void DialogBuy::SpectacleSelected(QString spec)
 
 	query.prepare("SELECT st.id_staging, st.datetime FROM staging st "
 				  "INNER JOIN spectacle sp using(id_spec) "
-				  "WHERE st.id_theater = ? AND sp.name_spec = ?");
+				  "WHERE st.id_theater = ? AND sp.name_spec = ? AND st.datetime > ?");
 	query.addBindValue(id_theater);
 	query.addBindValue(spec);
+	query.addBindValue(dt);
 	query.exec();
 
 	datetime->setQuery(query);
@@ -75,10 +77,10 @@ void DialogBuy::SpectacleSelected(QString spec)
 
 void DialogBuy::DatetimeSelected(QString dt)
 {
-	category->prepare("SELECT ct.id_category, ct.price, ct.free_seats, ct.name_cat "
+	category->prepare("SELECT ct.id_category, ct.name_cat "
 					  "FROM theater th INNER JOIN staging st using(id_theater) INNER JOIN spectacle sp " 
 					  "using(id_spec) INNER JOIN category ct using(id_staging) " 
-					  "WHERE th.name_th = ? AND sp.name_spec = ? AND st.datetime = ?");
+					  "WHERE th.name_th = ? AND sp.name_spec = ? AND st.datetime = ? ");
 	category->addBindValue(ui->theaterBox->currentText());
 	category->addBindValue(ui->spectacleBox->currentText());
 	category->addBindValue(ui->datetimeBox->currentText());
@@ -94,14 +96,25 @@ void DialogBuy::DatetimeSelected(QString dt)
 }
 
 
-void DialogBuy::PriceSelected(void)
+void DialogBuy::PriceSelected(int ind)
 {
 	
-	for (int i = 1; i < ui->priceBox->currentIndex() && category->next(); ++i)
+	for (int i = 1; i < ind && category->next(); ++i)
 		;
 
 	id_category = category->value(0).toInt();
-	ui->quantityBox->setMaximum(category->value(2).toInt());
+	QSqlQuery query;
+	query.prepare("SELECT ct.price, ct.free_seats "
+				  "FROM category ct "
+				  "WHERE ct.id_category = ? "
+	);
+	query.addBindValue(id_category);
+	query.exec();
+
+	query.next();
+	catPrice = query.value(0).toInt();
+	freeSeats = query.value(1).toInt();
+	ui->quantityBox->setMaximum(freeSeats);
 
 	ui->BuyButton->setEnabled(true);
 	ui->quantityBox->setEnabled(true);
@@ -110,10 +123,14 @@ void DialogBuy::PriceSelected(void)
 void DialogBuy::BuyClicked(void)
 {
 	QSqlQuery query;
-	static QVariantList list;
+	QDateTime dt = QDateTime::currentDateTime();
+	int k = 10;//коэффициент скидки(10%)
 
 	if (ui->quantityBox->value() == 0)
+	{
+		QMessageBox::information(this, "INFO", "TICKET QUANTITY = 0");
 		return;
+	}
 
 	ui->spectacleBox->setEnabled(false);
 	ui->datetimeBox->setEnabled(false);
@@ -123,24 +140,22 @@ void DialogBuy::BuyClicked(void)
 
 	if (saleId == 0)
 	{
-		QDateTime dt = QDateTime::currentDateTime();
+		k = 0;
 
 		//добавл€ем чек в базу
-		query.prepare("INSERT INTO sale (sum, datetime) VALUE('0',?)");
+		query.prepare("INSERT INTO sale (sum, datetime, type) VALUE('0',?, 'sell')");
 		query.addBindValue(dt);
 		query.exec();
-		QMessageBox::information(this, "", query.lastError().text());
 
 		//создаем таблицу
-		ui->tableWidget->setColumnCount(7); // ”казываем число колонок
-		ui->tableWidget->hideColumn(6);
+		ui->tableWidget->setColumnCount(6); // ”казываем число колонок
 		ui->tableWidget->setShowGrid(true); // ¬ключаем сетку
-		ui->tableWidget->setHorizontalHeaderLabels(QStringList() << trUtf8("THEATER")
-																 << trUtf8("SPECTACLE")
-																 << trUtf8("DATE AND TIME")
-																 << trUtf8("CATEGORY")
-																 << trUtf8("QUANTITY")
-																 << trUtf8("PRICE")
+		ui->tableWidget->setHorizontalHeaderLabels(QStringList() << "THEATER"
+																 << "SPECTACLE"
+																 << "DATE AND TIME"
+																 << "CATEGORY"
+																 << "QUANTITY"
+																 << "PRICE"
 		);
 
 		saleId = query.lastInsertId().toInt();
@@ -149,24 +164,23 @@ void DialogBuy::BuyClicked(void)
 	//уменьшаем количество свободных мест
 	query.prepare("UPDATE category SET free_seats = free_seats - ? WHERE id_category = ?");
 	query.addBindValue(ui->quantityBox->value());
-	query.addBindValue(category->value(0).toInt());
-	query.exec();
-
-	//прибавл€ем сумму в чеке
-	query.prepare("UPDATE sale SET sum = sum + ? WHERE id_sale = ?");
-	if (ui->quantityBox->value() >= 10)
-		query.addBindValue(ui->quantityBox->value() * category->value(1).toInt() * 0.9);
-	else
-		query.addBindValue(ui->quantityBox->value() * category->value(1).toInt());
-	query.addBindValue(saleId);
+	query.addBindValue(id_category);
 	query.exec();
 
 	//добавл€ем позицию в базу
-	query.prepare("INSERT INTO position (id_category, quantity, id_sale, balance) VALUES (?,?,?,?)");
+	query.prepare("INSERT INTO position (id_category, quantity, id_sale) VALUES (?,?,?)");
 	query.addBindValue(id_category);
 	query.addBindValue(ui->quantityBox->value());
 	query.addBindValue(saleId);
-	query.addBindValue(ui->quantityBox->value() * category->value(1).toInt());
+	query.exec();
+
+	if (ui->quantityBox->value() >= 10) //скидка за количество
+		k += 10;
+
+	//прибавл€ем сумму в чеке
+	query.prepare("UPDATE sale SET sum = sum + ? WHERE id_sale = ?");
+	query.addBindValue(ui->quantityBox->value() * catPrice * (100 - k) / 100);
+	query.addBindValue(saleId);
 	query.exec();
 
 	//добавл€ем строку в таблицу счета
@@ -175,11 +189,9 @@ void DialogBuy::BuyClicked(void)
 	ui->tableWidget->setItem(i, 0, new QTableWidgetItem(ui->theaterBox->currentText()));
 	ui->tableWidget->setItem(i, 1, new QTableWidgetItem(ui->spectacleBox->currentText()));
 	ui->tableWidget->setItem(i, 2, new QTableWidgetItem(ui->datetimeBox->currentText()));
-	ui->tableWidget->setItem(i, 3, new QTableWidgetItem(category->value(3).toString()));
+	ui->tableWidget->setItem(i, 3, new QTableWidgetItem(category->value(1).toString()));
 	ui->tableWidget->setItem(i, 4, new QTableWidgetItem(ui->quantityBox->text()));
-	ui->tableWidget->setItem(i, 5, new QTableWidgetItem(category->value(1).toString()));
-	ui->tableWidget->setItem(i, 6, new QTableWidgetItem(QString::number(id_category)));
-
+	ui->tableWidget->setItem(i, 5, new QTableWidgetItem(QString::number(catPrice)));
 
 	ui->GetBillButton->setEnabled(true);
 }

@@ -42,7 +42,7 @@ public:
     {
         if (queryRep->objectName().isEmpty())
             queryRep->setObjectName(QStringLiteral("queryRep"));
-        queryRep->resize(530, 385);
+        queryRep->resize(395, 385);
         gridLayout = new QGridLayout(queryRep);
         gridLayout->setSpacing(6);
         gridLayout->setContentsMargins(11, 11, 11, 11);

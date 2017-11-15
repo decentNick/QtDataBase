@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>588</width>
+    <width>718</width>
     <height>443</height>
    </rect>
   </property>
@@ -151,7 +151,7 @@
        <item>
         <widget class="QPushButton" name="pushButton">
          <property name="text">
-          <string>PushButton</string>
+          <string>ИТОГ</string>
          </property>
         </widget>
        </item>
@@ -297,6 +297,38 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>returnButton</sender>
+   <signal>clicked()</signal>
+   <receiver>DialogReturn</receiver>
+   <slot>ReturnClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>560</x>
+     <y>219</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>581</x>
+     <y>214</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>DialogReturn</receiver>
+   <slot>ShowSum()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>513</x>
+     <y>251</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>513</x>
+     <y>273</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>TextChanged(QString)</slot>
@@ -305,5 +337,7 @@
   <slot>SpectacleSelected(QString)</slot>
   <slot>DatetimeSelected(QString)</slot>
   <slot>CategorySelected(int)</slot>
+  <slot>ReturnClicked()</slot>
+  <slot>ShowSum()</slot>
  </slots>
 </ui>

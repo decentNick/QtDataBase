@@ -58,7 +58,7 @@ public:
     {
         if (DialogBuy->objectName().isEmpty())
             DialogBuy->setObjectName(QStringLiteral("DialogBuy"));
-        DialogBuy->resize(599, 576);
+        DialogBuy->resize(631, 485);
         DialogBuy->setMinimumSize(QSize(599, 485));
         DialogBuy->setMaximumSize(QSize(1000, 1000));
         verticalLayout_2 = new QVBoxLayout(DialogBuy);
@@ -196,9 +196,9 @@ public:
         QObject::connect(theaterBox, SIGNAL(activated(QString)), DialogBuy, SLOT(TheaterSelected(QString)));
         QObject::connect(spectacleBox, SIGNAL(activated(QString)), DialogBuy, SLOT(SpectacleSelected(QString)));
         QObject::connect(datetimeBox, SIGNAL(activated(QString)), DialogBuy, SLOT(DatetimeSelected(QString)));
-        QObject::connect(priceBox, SIGNAL(activated(int)), DialogBuy, SLOT(PriceSelected()));
         QObject::connect(BuyButton, SIGNAL(clicked()), DialogBuy, SLOT(BuyClicked()));
         QObject::connect(GetBillButton, SIGNAL(clicked()), DialogBuy, SLOT(GetBillClicked()));
+        QObject::connect(priceBox, SIGNAL(activated(int)), DialogBuy, SLOT(PriceSelected(int)));
 
         QMetaObject::connectSlotsByName(DialogBuy);
     } // setupUi

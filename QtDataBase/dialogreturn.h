@@ -23,6 +23,7 @@ private slots:
 	void DatetimeSelected(QString);
 	void CategorySelected(int);
 	void ReturnClicked(void);
+	void ShowSum(void);
 
 private:
 	Ui::DialogReturn *ui;
@@ -34,6 +35,11 @@ private:
 	QSqlQuery *categoryQuery;
 
 	int saleId;
+	int posQuantity;
+	int catPrice;
+	int id_category;
+	int id_position;
+	int returnSum;
 };
 
 #endif // DIALOGRETURN_H

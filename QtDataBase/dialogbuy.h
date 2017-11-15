@@ -22,7 +22,7 @@ private slots:
 	void TheaterSelected(QString th);
 	void SpectacleSelected(QString spec);
 	void DatetimeSelected(QString dt);
-	void PriceSelected(void);
+	void PriceSelected(int);
 	void BuyClicked(void);
 	void GetBillClicked(void);
 
@@ -37,7 +37,7 @@ private:
 	int id_category;
 	int id_theater;
 	int freeSeats;
-	int price;
+	int catPrice;
 	int saleId;
 };
 

@@ -4,6 +4,9 @@
 #include "queryrep.h"
 #include "dialogbuy.h"
 #include "dialogreturn.h"
+#include "dialogticketstate.h"
+#include "dialogfinancial.h"
+#include "dialogemptysales.h"
 
 QtDataBase::QtDataBase(QWidget *parent)
 	: QMainWindow(parent), ui(new Ui::QtDataBaseClass),
@@ -23,8 +26,9 @@ QtDataBase::QtDataBase(QWidget *parent)
 
 void QtDataBase::queryRepertoire(void)
 {
-	QString strQuery = "SELECT th.name_th, sp.name_spec, st.datetime ";
-	strQuery += "FROM theater th INNER JOIN staging st using(id_theater) INNER JOIN spectacle sp using(id_spec)";
+	QString strQuery = "SELECT th.name_th, sp.name_spec, st.datetime "
+		"FROM theater th INNER JOIN staging st using(id_theater) INNER JOIN spectacle sp using(id_spec)"
+		"ORDER BY(th.name_th)";
 	repertoireModel->setQuery(strQuery, db);
 	repertoireModel->setHeaderData(0, Qt::Horizontal, "THEATER");
 	repertoireModel->setHeaderData(1, Qt::Horizontal, "SPECTACLE");
@@ -49,6 +53,27 @@ void QtDataBase::BuyClicked(void)
 void QtDataBase::ReturnClicked(void)
 {
 	DialogReturn *dialog = new DialogReturn(&db);
+	dialog->exec();
+	delete dialog;
+}
+
+void QtDataBase::TicketsStateClicked(void)
+{
+	DialogTicketState *dialog = new DialogTicketState(&db);
+	dialog->exec();
+	delete dialog;
+}
+
+void QtDataBase::FinancialReport(void)
+{
+	DialogFinancial *dialog = new DialogFinancial(&db);
+	dialog->exec();
+	delete dialog;
+}
+
+void QtDataBase::EmptySalesClicked(void)
+{
+	DialogEmptySales *dialog = new DialogEmptySales(&db);
 	dialog->exec();
 	delete dialog;
 }
