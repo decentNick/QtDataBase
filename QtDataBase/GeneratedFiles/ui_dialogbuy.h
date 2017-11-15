@@ -58,7 +58,7 @@ public:
     {
         if (DialogBuy->objectName().isEmpty())
             DialogBuy->setObjectName(QStringLiteral("DialogBuy"));
-        DialogBuy->resize(631, 485);
+        DialogBuy->resize(636, 485);
         DialogBuy->setMinimumSize(QSize(599, 485));
         DialogBuy->setMaximumSize(QSize(1000, 1000));
         verticalLayout_2 = new QVBoxLayout(DialogBuy);

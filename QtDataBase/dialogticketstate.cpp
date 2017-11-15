@@ -18,10 +18,17 @@ DialogTicketState::DialogTicketState(QSqlDatabase *db, QWidget *parent)
 	ui->comboBox->setModel(model);
 	ui->comboBox->setModelColumn(0);
 
+	database = db;
 }
 
 void DialogTicketState::TheaterSelected(QString theat)
 {
+	QSqlQuery stage(*database);
+	QSqlQuery datetime(*database);
+	QSqlQuery category(*database);
+	QSqlQuery query(*database);
+
+
 	QDateTime dateTime = QDateTime::currentDateTime();
 	QStringList headerLabels;
 	headerLabels.push_back(tr("SPECTACLE"));
@@ -35,7 +42,6 @@ void DialogTicketState::TheaterSelected(QString theat)
 	ui->treeWidget->setHeaderLabels(headerLabels);
 	ui->treeWidget->header()->resizeSection(1, 150);
 
-	QSqlQuery stage;
 	stage.prepare("SELECT DISTINCT sp.name_spec "
 				  "FROM theater th INNER JOIN staging st using(id_theater)"
 				  "INNER JOIN spectacle sp using(id_spec)"
@@ -53,7 +59,6 @@ void DialogTicketState::TheaterSelected(QString theat)
 		ui->treeWidget->addTopLevelItem(st);
 		st->setText(0, spect);
 		
-		QSqlQuery datetime;
 		datetime.prepare("SELECT st.datetime, st.id_staging "
 						 "FROM theater th INNER JOIN staging st using(id_theater)"
 						 "INNER JOIN spectacle sp using(id_spec)"
@@ -71,7 +76,6 @@ void DialogTicketState::TheaterSelected(QString theat)
 			st->addChild(dt);
 			dt->setText(1, datetime.value(0).toString());
 
-			QSqlQuery category;
 			category.prepare("SELECT name_cat, id_category "
 							 "FROM category "
 							 "WHERE id_staging = ? "
@@ -86,30 +90,25 @@ void DialogTicketState::TheaterSelected(QString theat)
 				int buyQuantity = 0, returnQuantity = 0;
 
 				//количество купленных
-				QSqlQuery query;
-				query.prepare("SELECT ps.quantity "
+				query.prepare("SELECT SUM(ps.quantity) "
 							  "FROM position ps INNER JOIN sale using(id_sale)"
 							  "WHERE ps.id_category = ? AND sale.type = 'sell'"
 				);
 				query.addBindValue(category.value(1));
 				query.exec();
+				query.next();
 
-				while (query.next())
-				{
-					buyQuantity += query.value(0).toInt();
-				}
+				buyQuantity = query.value(0).toInt();
 
-				query.prepare("SELECT ps.quantity "
+				query.prepare("SELECT SUM(ps.quantity) "
 							  "FROM position ps INNER JOIN sale using(id_sale)"
 							  "WHERE ps.id_category = ? AND sale.type = 'return'"
 				);
 				query.addBindValue(category.value(1));
 				query.exec();
+				query.next();
 
-				while (query.next())
-				{
-					returnQuantity += query.value(0).toInt();
-				}
+				returnQuantity = query.value(0).toInt();
 
 
 				ct->setText(2, category.value(0).toString());

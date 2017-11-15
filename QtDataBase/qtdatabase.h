@@ -23,6 +23,7 @@ private slots:
 	void TicketsStateClicked(void);
 	void FinancialReport(void);
 	void EmptySalesClicked(void);
+	void KSuccessClicked(void);
 
 private:
 	Ui::QtDataBaseClass *ui;

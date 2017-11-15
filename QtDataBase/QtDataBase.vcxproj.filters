@@ -104,6 +104,15 @@
     <ClCompile Include="GeneratedFiles\Release\moc_dialogemptysales.cpp">
       <Filter>Generated Files\Release</Filter>
     </ClCompile>
+    <ClCompile Include="dialogsuccess.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Debug\moc_dialogsuccess.cpp">
+      <Filter>Generated Files\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="GeneratedFiles\Release\moc_dialogsuccess.cpp">
+      <Filter>Generated Files\Release</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <CustomBuild Include="qtdatabase.h">
@@ -151,6 +160,12 @@
     <CustomBuild Include="dialogemptysales.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>
+    <CustomBuild Include="dialogsuccess.h">
+      <Filter>Header Files</Filter>
+    </CustomBuild>
+    <CustomBuild Include="dialogsuccess.ui">
+      <Filter>Form Files</Filter>
+    </CustomBuild>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GeneratedFiles\ui_qtdatabase.h">
@@ -172,6 +187,9 @@
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_dialogemptysales.h">
+      <Filter>Generated Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GeneratedFiles\ui_dialogsuccess.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>

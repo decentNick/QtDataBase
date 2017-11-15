@@ -65,7 +65,7 @@ void DialogFinancial::YearInserted(void)
 			ui->textEdit->append(QString(LINESIZE, '-'));
 		}
 
-		query.prepare("SELECT sum "
+		query.prepare("SELECT SUM(sum)"
 					  "FROM sale "
 					  "WHERE YEAR(datetime) = ? "
 					  "AND MONTH(datetime) = ? "
@@ -74,13 +74,11 @@ void DialogFinancial::YearInserted(void)
 		query.addBindValue(ui->lineEdit->text().toInt());
 		query.addBindValue(indMonth);
 		query.exec();
+		query.next();
 
-		while (query.next())
-		{
-			sellSum += query.value(0).toInt();
-		}
+		sellSum = query.value(0).toInt();
 
-		query.prepare("SELECT sum "
+		query.prepare("SELECT SUM(sum)"
 					  "FROM sale "
 					  "WHERE YEAR(datetime) = ? "
 					  "AND MONTH(datetime) = ? "
@@ -89,11 +87,9 @@ void DialogFinancial::YearInserted(void)
 		query.addBindValue(ui->lineEdit->text().toInt());
 		query.addBindValue(indMonth);
 		query.exec();
+		query.next();
 
-		while (query.next())
-		{
-			retuSum += query.value(0).toInt();
-		}
+		retuSum = query.value(0).toInt();
 
 		ui->textEdit->append(QString().sprintf(MONTHSTR, months[indMonth - 1], 
 			sellSum, retuSum, sellSum - retuSum));

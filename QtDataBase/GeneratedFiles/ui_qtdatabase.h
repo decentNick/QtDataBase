@@ -145,6 +145,7 @@ public:
         QObject::connect(pushButton_5, SIGNAL(clicked()), QtDataBaseClass, SLOT(TicketsStateClicked()));
         QObject::connect(pushButton_6, SIGNAL(clicked()), QtDataBaseClass, SLOT(FinancialReport()));
         QObject::connect(pushButton_7, SIGNAL(clicked()), QtDataBaseClass, SLOT(EmptySalesClicked()));
+        QObject::connect(pushButton_8, SIGNAL(clicked()), QtDataBaseClass, SLOT(KSuccessClicked()));
 
         QMetaObject::connectSlotsByName(QtDataBaseClass);
     } // setupUi

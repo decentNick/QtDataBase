@@ -48,8 +48,11 @@ void DialogReturn::SaleIdEntered(void)
 	ui->returnButton->setEnabled(false);
 
 	query.prepare("SELECT DISTINCT th.name_th "
-				  "FROM sale sl INNER JOIN position ps using(id_sale) INNER JOIN category ct using(id_category) "
-				  "INNER JOIN staging st using(id_staging) INNER JOIN theater th using(id_theater) WHERE id_sale = ?"
+				  "FROM sale sl INNER JOIN position ps using(id_sale)"
+				  "INNER JOIN category ct using(id_category)"
+				  "INNER JOIN staging st using(id_staging)"
+				  "INNER JOIN theater th using(id_theater)"
+				  "WHERE id_sale = ?"
 	);
 	query.addBindValue(ui->lineEdit->text());
 	query.exec();
@@ -69,8 +72,10 @@ void DialogReturn::TheaterSelected(QString th)
 	ui->returnButton->setEnabled(false);
 
 	query.prepare("SELECT DISTINCT sp.name_spec "
-				  "FROM sale sl INNER JOIN position ps using(id_sale) INNER JOIN category ct using(id_category)"
-				  "INNER JOIN staging st using(id_staging) INNER JOIN theater th using(id_theater)" 
+				  "FROM sale sl INNER JOIN position ps using(id_sale)" 
+				  "INNER JOIN category ct using(id_category)"
+				  "INNER JOIN staging st using(id_staging)" 
+				  "INNER JOIN theater th using(id_theater)" 
 				  "INNER JOIN spectacle sp using(id_spec)"
 				  "WHERE sl.id_sale = ? AND th.name_th = ?"
 	);
@@ -93,9 +98,13 @@ void DialogReturn::SpectacleSelected(QString sp)
 	ui->returnButton->setEnabled(false);
 
 	query.prepare("SELECT DISTINCT st.datetime "
-				  "FROM sale sl INNER JOIN position ps using(id_sale) INNER JOIN category ct using(id_category)"
-				  "INNER JOIN staging st using(id_staging) INNER JOIN theater th using(id_theater) INNER JOIN spectacle sp using(id_spec)"
-				  "WHERE sl.id_sale = ? AND th.name_th = ? AND sp.name_spec = ? AND st.datetime > ?"
+				  "FROM sale sl INNER JOIN position ps using(id_sale)" 
+				  "INNER JOIN category ct using(id_category)"
+				  "INNER JOIN staging st using(id_staging)" 
+				  "INNER JOIN theater th using(id_theater)"
+				  "INNER JOIN spectacle sp using(id_spec)"
+				  "WHERE sl.id_sale = ? AND th.name_th = ? "
+				  "AND sp.name_spec = ? AND st.datetime > ?"
 	);
 	query.addBindValue(ui->lineEdit->text());
 	query.addBindValue(ui->thBox->currentText());
@@ -115,9 +124,13 @@ void DialogReturn::DatetimeSelected(QString dt)
 	ui->returnButton->setEnabled(false);
 
 	categoryQuery->prepare("SELECT ct.name_cat, ps.id_pos, ct.id_category "
-						   "FROM sale sl INNER JOIN position ps using(id_sale) INNER JOIN category ct using(id_category)"
-					       "INNER JOIN staging st using(id_staging) INNER JOIN theater th using(id_theater) INNER JOIN spectacle sp using(id_spec)"
-						   "WHERE sl.id_sale = ? AND th.name_th = ? AND sp.name_spec = ? AND st.datetime = ?"
+						   "FROM sale sl INNER JOIN position ps using(id_sale)"
+						   "INNER JOIN category ct using(id_category)"
+					       "INNER JOIN staging st using(id_staging)"
+						   "INNER JOIN theater th using(id_theater)"
+						   "INNER JOIN spectacle sp using(id_spec)"
+						   "WHERE sl.id_sale = ? AND th.name_th = ? "
+						   "AND sp.name_spec = ? AND st.datetime = ?"
 	);
 	categoryQuery->addBindValue(ui->lineEdit->text());
 	categoryQuery->addBindValue(ui->thBox->currentText());
@@ -140,8 +153,8 @@ void DialogReturn::CategorySelected(int ind)
 
 	QSqlQuery info;
 	info.prepare("SELECT ps.quantity, ct.price "
-				  "FROM position ps INNER JOIN category ct using(id_category)"
-				  "WHERE ps.id_pos = ?"
+				 "FROM position ps INNER JOIN category ct using(id_category)"
+				 "WHERE ps.id_pos = ?"
 	);
 	info.addBindValue(id_position);
 	info.exec();
@@ -226,14 +239,12 @@ void DialogReturn::ReturnClicked(void)
 	query.addBindValue(ui->qnBox->value());
 	query.addBindValue(id_category);
 	query.exec();
-	QMessageBox::information(this, "", query.lastError().text());
 
 	//уменьшаем количество купленного
 	query.prepare("UPDATE position SET quantity = quantity - ? WHERE id_pos = ?");
 	query.addBindValue(ui->qnBox->value());
 	query.addBindValue(id_position);
 	query.exec();
-	QMessageBox::information(this, "", QString::number(ui->qnBox->value()));
 	
 	//прибавляем сумму в чеке
 	query.prepare("UPDATE sale SET sum = sum + ? WHERE id_sale = ?");

@@ -37,7 +37,7 @@ public:
     {
         if (DialogEmptySales->objectName().isEmpty())
             DialogEmptySales->setObjectName(QStringLiteral("DialogEmptySales"));
-        DialogEmptySales->resize(422, 489);
+        DialogEmptySales->resize(240, 489);
         verticalLayout = new QVBoxLayout(DialogEmptySales);
         verticalLayout->setSpacing(6);
         verticalLayout->setContentsMargins(11, 11, 11, 11);

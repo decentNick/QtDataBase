@@ -35,9 +35,10 @@ DialogBuy::DialogBuy(QSqlDatabase *db, QWidget *parent)
 
 void DialogBuy::TheaterSelected(QString th)
 {
-	QString query = "SELECT DISTINCT sp.name_spec FROM theater th INNER JOIN staging st using(id_theater) ";
-	query += "INNER JOIN spectacle sp using(id_spec) WHERE th.name_th = '";
-	query += th + "'";
+	QString query = "SELECT DISTINCT sp.name_spec "
+					"FROM theater th INNER JOIN staging st using(id_theater)"
+					"INNER JOIN spectacle sp using(id_spec)" 
+					"WHERE th.name_th = '" + th + "'";
 
 	spectacle->setQuery(query, *database);
 	id_theater = ui->theaterBox->currentIndex() + 1; // если нет пропусков в списке театров
@@ -103,6 +104,7 @@ void DialogBuy::PriceSelected(int ind)
 		;
 
 	id_category = category->value(0).toInt();
+
 	QSqlQuery query;
 	query.prepare("SELECT ct.price, ct.free_seats "
 				  "FROM category ct "

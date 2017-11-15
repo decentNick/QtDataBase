@@ -7,6 +7,7 @@
 #include "dialogticketstate.h"
 #include "dialogfinancial.h"
 #include "dialogemptysales.h"
+#include "dialogsuccess.h"
 
 QtDataBase::QtDataBase(QWidget *parent)
 	: QMainWindow(parent), ui(new Ui::QtDataBaseClass),
@@ -21,14 +22,15 @@ QtDataBase::QtDataBase(QWidget *parent)
 	db.setPassword("hKPQ6NXQ");
 
 	if (!db.open())
-		QMessageBox::information(this, "ERROR",db.lastError().text());
+		QMessageBox::information(this, "ERROR", db.lastError().text());
 }
 
 void QtDataBase::queryRepertoire(void)
 {
 	QString strQuery = "SELECT th.name_th, sp.name_spec, st.datetime "
-		"FROM theater th INNER JOIN staging st using(id_theater) INNER JOIN spectacle sp using(id_spec)"
-		"ORDER BY(th.name_th)";
+					   "FROM theater th INNER JOIN staging st using(id_theater)" 
+					   "INNER JOIN spectacle sp using(id_spec)"
+		               "ORDER BY 1, 2, 3";
 	repertoireModel->setQuery(strQuery, db);
 	repertoireModel->setHeaderData(0, Qt::Horizontal, "THEATER");
 	repertoireModel->setHeaderData(1, Qt::Horizontal, "SPECTACLE");
@@ -74,6 +76,13 @@ void QtDataBase::FinancialReport(void)
 void QtDataBase::EmptySalesClicked(void)
 {
 	DialogEmptySales *dialog = new DialogEmptySales(&db);
+	dialog->exec();
+	delete dialog;
+}
+
+void QtDataBase::KSuccessClicked(void)
+{
+	DialogSuccess *dialog = new DialogSuccess(&db);
 	dialog->exec();
 	delete dialog;
 }

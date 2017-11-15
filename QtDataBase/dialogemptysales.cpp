@@ -13,7 +13,8 @@ DialogEmptySales::DialogEmptySales(QSqlDatabase *db, QWidget *parent)
 
 void DialogEmptySales::RefreshClicked(void)
 {
-	QSqlQuery query;
+	ui->tableWidget->clear();
+	ui->tableWidget->setRowCount(0);
 
 	//создаем таблицу
 	ui->tableWidget->setColumnCount(2); // ”казываем число колонок
@@ -29,12 +30,13 @@ void DialogEmptySales::RefreshClicked(void)
 	);
 	theater.exec();
 
+	QSqlQuery query;
 	for (int i = 0; theater.next(); ++i)
 	{
 		int returnedCount = 0;
 		int saleCount = 0;
 
-		query.prepare("SELECT ps.quantity "
+		query.prepare("SELECT SUM(ps.quantity) "
 					  "FROM staging st INNER JOIN category ct using(id_staging)"
 					  "INNER JOIN position ps using(id_category) INNER JOIN sale "
 					  "sl using(id_sale) "
@@ -42,11 +44,11 @@ void DialogEmptySales::RefreshClicked(void)
 		);
 		query.addBindValue(theater.value(1).toInt());
 		query.exec();
+		query.next();
 
-		while (query.next())
-			saleCount += query.value(0).toInt();
+		saleCount = query.value(0).toInt();
 
-		query.prepare("SELECT ps.quantity "
+		query.prepare("SELECT SUM(ps.quantity) "
 					  "FROM staging st INNER JOIN category ct using(id_staging)"
 					  "INNER JOIN position ps using(id_category) INNER JOIN sale "
 					  "sl using(id_sale) "
@@ -54,9 +56,9 @@ void DialogEmptySales::RefreshClicked(void)
 		);
 		query.addBindValue(theater.value(1).toInt());
 		query.exec();
+		query.next();
 
-		while (query.next())
-			returnedCount += query.value(0).toInt();
+		returnedCount = query.value(0).toInt();
 
 		ui->tableWidget->insertRow(i);
 		ui->tableWidget->setItem(i, 0, new QTableWidgetItem(theater.value(0).toString()));

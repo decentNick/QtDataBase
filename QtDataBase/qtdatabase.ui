@@ -261,6 +261,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>pushButton_8</sender>
+   <signal>clicked()</signal>
+   <receiver>QtDataBaseClass</receiver>
+   <slot>KSuccessClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>401</x>
+     <y>263</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>401</x>
+     <y>278</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>queryRepertoire()</slot>
@@ -270,5 +286,6 @@
   <slot>TicketsStateClicked()</slot>
   <slot>FinancialReport()</slot>
   <slot>EmptySalesClicked()</slot>
+  <slot>KSuccessClicked()</slot>
  </slots>
 </ui>
