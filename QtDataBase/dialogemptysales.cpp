@@ -40,7 +40,7 @@ void DialogEmptySales::RefreshClicked(void)
 					  "FROM staging st INNER JOIN category ct using(id_staging)"
 					  "INNER JOIN position ps using(id_category) INNER JOIN sale "
 					  "sl using(id_sale) "
-					  "WHERE st.id_theater = ? AND sl.type = 'sell'"
+					  "WHERE st.id_theater = ? AND (sl.type = 'soldEn' OR sl.type = 'soldAc')"
 		);
 		query.addBindValue(theater.value(1).toInt());
 		query.exec();

@@ -22,8 +22,9 @@ private slots:
 	void SpectacleSelected(QString);
 	void DatetimeSelected(QString);
 	void CategorySelected(int);
+	void AddClicked(void);
 	void ReturnClicked(void);
-	void ShowSum(void);
+	void TotalClicked(void);
 
 private:
 	Ui::DialogReturn *ui;
@@ -34,12 +35,13 @@ private:
 	QSqlQueryModel *category;
 	QSqlQuery *categoryQuery;
 
-	int saleId;
 	int posQuantity;
 	int catPrice;
+	int posBalance;
 	int id_category;
 	int id_position;
 	int returnSum;
+	int saleId;
 };
 
 #endif // DIALOGRETURN_H

@@ -92,7 +92,8 @@ void DialogTicketState::TheaterSelected(QString theat)
 				//количество купленных
 				query.prepare("SELECT SUM(ps.quantity) "
 							  "FROM position ps INNER JOIN sale using(id_sale)"
-							  "WHERE ps.id_category = ? AND sale.type = 'sell'"
+							  "WHERE ps.id_category = ? AND "
+							  "(sale.type = 'soldEn' OR sale.type = 'soldAc')"
 				);
 				query.addBindValue(category.value(1));
 				query.exec();

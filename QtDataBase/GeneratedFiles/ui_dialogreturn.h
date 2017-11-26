@@ -54,8 +54,9 @@ public:
     QHBoxLayout *horizontalLayout_8;
     QTableWidget *tableWidget;
     QVBoxLayout *verticalLayout;
+    QPushButton *addButton;
     QPushButton *returnButton;
-    QPushButton *pushButton;
+    QPushButton *totalButton;
     QSpacerItem *verticalSpacer;
     QPushButton *closeButton;
 
@@ -63,7 +64,7 @@ public:
     {
         if (DialogReturn->objectName().isEmpty())
             DialogReturn->setObjectName(QStringLiteral("DialogReturn"));
-        DialogReturn->resize(718, 443);
+        DialogReturn->resize(843, 443);
         verticalLayout_2 = new QVBoxLayout(DialogReturn);
         verticalLayout_2->setSpacing(6);
         verticalLayout_2->setContentsMargins(11, 11, 11, 11);
@@ -181,15 +182,20 @@ public:
         verticalLayout = new QVBoxLayout();
         verticalLayout->setSpacing(6);
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
+        addButton = new QPushButton(DialogReturn);
+        addButton->setObjectName(QStringLiteral("addButton"));
+
+        verticalLayout->addWidget(addButton);
+
         returnButton = new QPushButton(DialogReturn);
         returnButton->setObjectName(QStringLiteral("returnButton"));
 
         verticalLayout->addWidget(returnButton);
 
-        pushButton = new QPushButton(DialogReturn);
-        pushButton->setObjectName(QStringLiteral("pushButton"));
+        totalButton = new QPushButton(DialogReturn);
+        totalButton->setObjectName(QStringLiteral("totalButton"));
 
-        verticalLayout->addWidget(pushButton);
+        verticalLayout->addWidget(totalButton);
 
         verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
@@ -215,8 +221,9 @@ public:
         QObject::connect(spBox, SIGNAL(activated(QString)), DialogReturn, SLOT(SpectacleSelected(QString)));
         QObject::connect(dtBox, SIGNAL(activated(QString)), DialogReturn, SLOT(DatetimeSelected(QString)));
         QObject::connect(ctBox, SIGNAL(activated(int)), DialogReturn, SLOT(CategorySelected(int)));
+        QObject::connect(totalButton, SIGNAL(clicked()), DialogReturn, SLOT(TotalClicked()));
+        QObject::connect(addButton, SIGNAL(clicked()), DialogReturn, SLOT(AddClicked()));
         QObject::connect(returnButton, SIGNAL(clicked()), DialogReturn, SLOT(ReturnClicked()));
-        QObject::connect(pushButton, SIGNAL(clicked()), DialogReturn, SLOT(ShowSum()));
 
         QMetaObject::connectSlotsByName(DialogReturn);
     } // setupUi
@@ -232,8 +239,9 @@ public:
         datetimeLabel->setText(QApplication::translate("DialogReturn", "\320\224\320\220\320\242\320\220 \320\230 \320\222\320\240\320\225\320\234\320\257", Q_NULLPTR));
         categoryLabel->setText(QApplication::translate("DialogReturn", "\320\232\320\220\320\242\320\225\320\223\320\236\320\240\320\230\320\257", Q_NULLPTR));
         quantityLabel->setText(QApplication::translate("DialogReturn", "\320\232\320\236\320\233\320\230\320\247\320\225\320\241\320\242\320\222\320\236", Q_NULLPTR));
+        addButton->setText(QApplication::translate("DialogReturn", "\320\224\320\236\320\221\320\220\320\222\320\230\320\242\320\254", Q_NULLPTR));
         returnButton->setText(QApplication::translate("DialogReturn", "\320\222\320\225\320\240\320\235\320\243\320\242\320\254", Q_NULLPTR));
-        pushButton->setText(QApplication::translate("DialogReturn", "\320\230\320\242\320\236\320\223", Q_NULLPTR));
+        totalButton->setText(QApplication::translate("DialogReturn", "\320\230\320\242\320\236\320\223", Q_NULLPTR));
         closeButton->setText(QApplication::translate("DialogReturn", "\320\227\320\220\320\232\320\240\320\253\320\242\320\254", Q_NULLPTR));
     } // retranslateUi
 

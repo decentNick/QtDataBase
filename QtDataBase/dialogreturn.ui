@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>718</width>
+    <width>843</width>
     <height>443</height>
    </rect>
   </property>
@@ -142,6 +142,13 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
+        <widget class="QPushButton" name="addButton">
+         <property name="text">
+          <string>ДОБАВИТЬ</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <widget class="QPushButton" name="returnButton">
          <property name="text">
           <string>ВЕРНУТЬ</string>
@@ -149,7 +156,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="totalButton">
          <property name="text">
           <string>ИТОГ</string>
          </property>
@@ -208,8 +215,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>528</x>
-     <y>424</y>
+     <x>766</x>
+     <y>431</y>
     </hint>
     <hint type="destinationlabel">
      <x>528</x>
@@ -224,8 +231,8 @@
    <slot>SaleIdEntered()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>562</x>
-     <y>53</y>
+     <x>766</x>
+     <y>62</y>
     </hint>
     <hint type="destinationlabel">
      <x>581</x>
@@ -298,34 +305,50 @@
    </hints>
   </connection>
   <connection>
+   <sender>totalButton</sender>
+   <signal>clicked()</signal>
+   <receiver>DialogReturn</receiver>
+   <slot>TotalClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>766</x>
+     <y>277</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>712</x>
+     <y>309</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>addButton</sender>
+   <signal>clicked()</signal>
+   <receiver>DialogReturn</receiver>
+   <slot>AddClicked()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>766</x>
+     <y>215</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>712</x>
+     <y>199</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
    <sender>returnButton</sender>
    <signal>clicked()</signal>
    <receiver>DialogReturn</receiver>
    <slot>ReturnClicked()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>560</x>
-     <y>219</y>
+     <x>766</x>
+     <y>245</y>
     </hint>
     <hint type="destinationlabel">
-     <x>581</x>
-     <y>214</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>pushButton</sender>
-   <signal>clicked()</signal>
-   <receiver>DialogReturn</receiver>
-   <slot>ShowSum()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>513</x>
-     <y>251</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>513</x>
-     <y>273</y>
+     <x>712</x>
+     <y>245</y>
     </hint>
    </hints>
   </connection>
@@ -338,6 +361,7 @@
   <slot>DatetimeSelected(QString)</slot>
   <slot>CategorySelected(int)</slot>
   <slot>ReturnClicked()</slot>
-  <slot>ShowSum()</slot>
+  <slot>TotalClicked()</slot>
+  <slot>AddClicked()</slot>
  </slots>
 </ui>

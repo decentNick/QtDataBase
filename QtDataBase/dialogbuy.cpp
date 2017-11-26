@@ -145,7 +145,7 @@ void DialogBuy::BuyClicked(void)
 		k = 0;
 
 		//добавляем чек в базу
-		query.prepare("INSERT INTO sale (sum, datetime, type) VALUE('0',?, 'sell')");
+		query.prepare("INSERT INTO sale (sum, datetime, type) VALUE('0',?, 'soldEn')");
 		query.addBindValue(dt);
 		query.exec();
 
@@ -157,7 +157,7 @@ void DialogBuy::BuyClicked(void)
 																 << "DATE AND TIME"
 																 << "CATEGORY"
 																 << "QUANTITY"
-																 << "PRICE"
+																 << "BALANCE"
 		);
 
 		saleId = query.lastInsertId().toInt();
@@ -169,15 +169,16 @@ void DialogBuy::BuyClicked(void)
 	query.addBindValue(id_category);
 	query.exec();
 
+	if (ui->quantityBox->value() >= 10) //скидка за количество
+		k += 10;
+
 	//добавляем позицию в базу
-	query.prepare("INSERT INTO position (id_category, quantity, id_sale) VALUES (?,?,?)");
+	query.prepare("INSERT INTO position (id_category, quantity, id_sale, balance) VALUES (?,?,?,?)");
 	query.addBindValue(id_category);
 	query.addBindValue(ui->quantityBox->value());
 	query.addBindValue(saleId);
+	query.addBindValue(ui->quantityBox->value() * catPrice * (100 - k) / 100);
 	query.exec();
-
-	if (ui->quantityBox->value() >= 10) //скидка за количество
-		k += 10;
 
 	//прибавляем сумму в чеке
 	query.prepare("UPDATE sale SET sum = sum + ? WHERE id_sale = ?");
@@ -193,7 +194,7 @@ void DialogBuy::BuyClicked(void)
 	ui->tableWidget->setItem(i, 2, new QTableWidgetItem(ui->datetimeBox->currentText()));
 	ui->tableWidget->setItem(i, 3, new QTableWidgetItem(category->value(1).toString()));
 	ui->tableWidget->setItem(i, 4, new QTableWidgetItem(ui->quantityBox->text()));
-	ui->tableWidget->setItem(i, 5, new QTableWidgetItem(QString::number(catPrice)));
+	ui->tableWidget->setItem(i, 5, new QTableWidgetItem(QString::number(ui->quantityBox->value() * catPrice * (100 - k) / 100)));
 
 	ui->GetBillButton->setEnabled(true);
 }

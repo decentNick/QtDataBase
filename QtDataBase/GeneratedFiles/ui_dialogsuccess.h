@@ -46,7 +46,7 @@ public:
     {
         if (DialogSuccess->objectName().isEmpty())
             DialogSuccess->setObjectName(QStringLiteral("DialogSuccess"));
-        DialogSuccess->resize(589, 394);
+        DialogSuccess->resize(603, 394);
         verticalLayout = new QVBoxLayout(DialogSuccess);
         verticalLayout->setSpacing(6);
         verticalLayout->setContentsMargins(11, 11, 11, 11);

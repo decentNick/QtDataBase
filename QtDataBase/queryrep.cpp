@@ -29,8 +29,7 @@ void queryRep::SearchClicked(void)
 {
 	QString strQuery = "SELECT th.name_th, st.datetime " 
 					   "FROM theater th INNER JOIN staging st using(id_theater)"
-					   "INNER JOIN spectacle sp using(id_spec) ";
-					 + "WHERE sp.name_spec = '" + uii->lineEdit->text() + "'";
+					   "INNER JOIN spectacle sp using(id_spec) WHERE sp.name_spec = '" + uii->lineEdit->text() + "'";
 
 	model->setQuery(strQuery, *database);
 	model->setHeaderData(0, Qt::Horizontal, "THEATER");

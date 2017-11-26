@@ -29,9 +29,10 @@ void DialogFinancial::LineChanged(QString str)
 
 void DialogFinancial::YearInserted(void)
 {
-	int indMonth = 1;
-	int totalSell = 0, totalRetu = 0;
-	int sectSell = 0, sectRetu = 0;
+	QSqlQuery theater;
+	theater.exec("SELECT name_th, id_theater "
+			     "FROM theater"
+	);
 
 	char *months[] = {
 		"     JANUARY",
@@ -49,66 +50,93 @@ void DialogFinancial::YearInserted(void)
 	};
 
 	ui->textEdit->clear();
+
+	
 	ui->textEdit->append(QString(LINESIZE, '-'));
 	ui->textEdit->append(QString(LINESIZE / 3, ' ') + "FINANCIAL REPRORT FOR " + ui->lineEdit->text());
 	ui->textEdit->append(QString(LINESIZE, '-'));
-
-	for (indMonth = 1; indMonth <= 12; ++indMonth)
+	while (theater.next())
 	{
-		QSqlQuery query;
-		int sellSum = 0;
-		int retuSum = 0;
+		int indMonth = 1;
+		int totalSell = 0, totalRetu = 0;
+		int sectSell = 0, sectRetu = 0;
 
-		if (indMonth % 3 == 1)
+		ui->textEdit->append("");
+		ui->textEdit->append("");
+		ui->textEdit->append(QString(LINESIZE, '-'));
+		ui->textEdit->append(theater.value(0).toString());
+		ui->textEdit->append(QString(LINESIZE, '-'));
+		for (indMonth = 1; indMonth <= 12; ++indMonth)
 		{
-			ui->textEdit->append(QString().sprintf("%d section", indMonth / 3 + 1));
-			ui->textEdit->append(QString(LINESIZE, '-'));
+			QSqlQuery query;
+			int sellSum = 0;
+			int retuSum = 0;
+
+			if (indMonth % 3 == 1)
+			{
+				ui->textEdit->append(QString().sprintf("%d section", indMonth / 3 + 1));
+				ui->textEdit->append(QString(LINESIZE, '-'));
+			}
+
+			query.prepare("SELECT sl.id_sale, sl.sum "
+						  "FROM staging st INNER JOIN category using(id_staging)"
+						  "INNER JOIN position using(id_category)"
+						  "INNER JOIN sale sl using(id_sale)"
+						  "WHERE st.id_theater = ? " 
+						  "AND YEAR(sl.datetime) = ? "
+						  "AND MONTH(sl.datetime) = ? "
+						  "AND (type = 'soldEn' OR type = 'soldNotEn')"
+			);
+			query.addBindValue(theater.value(1).toInt());
+			query.addBindValue(ui->lineEdit->text().toInt());
+			query.addBindValue(indMonth);
+			query.exec();
+			for (int i = 0; query.next(); i = query.value(0).toInt())
+			{
+				if (i != query.value(0).toInt())
+					sellSum += query.value(1).toInt();
+			}
+			
+
+			query.prepare("SELECT sl.id_sale, sl.sum "
+						  "FROM staging st INNER JOIN category using(id_staging)"
+						  "INNER JOIN position using(id_category)"
+						  "INNER JOIN sale sl using(id_sale)"
+						  "WHERE st.id_theater = ? "
+						  "AND YEAR(sl.datetime) = ? "
+						  "AND MONTH(sl.datetime) = ? "
+						  "AND type = 'return'"
+			);
+			query.addBindValue(theater.value(1).toInt());
+			query.addBindValue(ui->lineEdit->text().toInt());
+			query.addBindValue(indMonth);
+			query.exec();
+
+			for (int i = 0; query.next(); i = query.value(0).toInt())
+			{
+				if (i != query.value(0).toInt())
+					retuSum += query.value(1).toInt();
+			}
+
+			ui->textEdit->append(QString().sprintf(MONTHSTR, months[indMonth - 1],
+				sellSum, retuSum, sellSum - retuSum));
+			sectSell += sellSum;
+			sectRetu += retuSum;
+
+			if (indMonth % 3 == 0 && indMonth != 0)
+			{
+				ui->textEdit->append(QString(LINESIZE, '-'));
+				ui->textEdit->append(QString().sprintf(SECTSTR, sectSell, sectRetu, sectSell - sectRetu));
+				totalSell += sectSell;
+				totalRetu += sectRetu;
+				sectSell = 0;
+				sectRetu = 0;
+			}
 		}
 
-		query.prepare("SELECT SUM(sum)"
-					  "FROM sale "
-					  "WHERE YEAR(datetime) = ? "
-					  "AND MONTH(datetime) = ? "
-					  "AND type = 'sell'"
-		);
-		query.addBindValue(ui->lineEdit->text().toInt());
-		query.addBindValue(indMonth);
-		query.exec();
-		query.next();
-
-		sellSum = query.value(0).toInt();
-
-		query.prepare("SELECT SUM(sum)"
-					  "FROM sale "
-					  "WHERE YEAR(datetime) = ? "
-					  "AND MONTH(datetime) = ? "
-					  "AND type = 'return'"
-		);
-		query.addBindValue(ui->lineEdit->text().toInt());
-		query.addBindValue(indMonth);
-		query.exec();
-		query.next();
-
-		retuSum = query.value(0).toInt();
-
-		ui->textEdit->append(QString().sprintf(MONTHSTR, months[indMonth - 1], 
-			sellSum, retuSum, sellSum - retuSum));
-		sectSell += sellSum;
-		sectRetu += retuSum;
-
-		if (indMonth % 3 == 0 && indMonth != 0)
-		{
-			ui->textEdit->append(QString(LINESIZE, '-'));
-			ui->textEdit->append(QString().sprintf(SECTSTR, sectSell, sectRetu, sectSell - sectRetu));
-			totalSell += sectSell;
-			totalRetu += sectRetu;
-			sectSell = 0;
-			sectRetu = 0;
-		}
+		ui->textEdit->append(QString(LINESIZE, '-'));
+		ui->textEdit->append(QString().sprintf(TOTALSTR, totalSell, totalRetu, totalSell - totalRetu));
 	}
-
-	ui->textEdit->append(QString(LINESIZE, '-'));
-	ui->textEdit->append(QString().sprintf(TOTALSTR, totalSell, totalRetu, totalSell - totalRetu));
 }
 
 DialogFinancial::~DialogFinancial()

@@ -76,7 +76,8 @@ void DialogSuccess::EnterClicked(void)
 
 		selled.prepare("SELECT SUM(ps.quantity) "
 					   "FROM sale sl INNER JOIN position ps using(id_sale)"
-					   "WHERE ps.id_category = ? AND sl.type = 'sell'"
+					   "WHERE ps.id_category = ? AND "
+					   "(sl.type = 'soldAc' OR sl.type = 'soldEn')"
 		);
 		selled.addBindValue(query.value(4).toInt());
 		selled.exec();
